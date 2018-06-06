@@ -157,7 +157,7 @@ void loop()
   dtostrf (Temp, 0, 3, radiopacket1);
   dtostrf (Hum, 0, 3, radiopacket2);
 
-  sprintf (radiopacket , "%s , %s" , radiopacket1 , radiopacket2);
+  sprintf (radiopacket,"%s,%s" , radiopacket1 , radiopacket2);
 
   Serial.println (radiopacket);
 
