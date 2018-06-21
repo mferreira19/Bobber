@@ -339,7 +339,7 @@ $(function (){
             enabled: true
         },
         series: [{
-            name: 'Random data',
+            name: 'Humidity',
             data: (function () {
                 // generate an array of random data
                 var data = [],
