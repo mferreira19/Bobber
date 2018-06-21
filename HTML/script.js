@@ -216,15 +216,15 @@ $(function (){
                 load: function () {
 
                     // set up the updating of the chart each second
-                    var series = this.series[0];
+                    let series = this.series[0];
                     setInterval(function () {
-                    lastLineTemp(function(value1) {
+                    lastLineSensorReader(function(value1) {
                       console.log(value1);
 
-                        var x = (new Date()).getTime(), // current time
+                        let x = (new Date()).getTime(), // current time
                             y=value1;
 
-                        series.addPoint([x, y], true, true);});
+                        series.addPoint([x, y], true, true);}, 1);
                     }, 1000);
                 }
             }
@@ -268,7 +268,7 @@ $(function (){
             name: 'Temperature',
             data: (function () {
                 // generate an array of random data
-                var data = [],
+                let data = [],
                     time = (new Date()).getTime(),
                     i;
 
@@ -293,15 +293,15 @@ $(function (){
                 load: function () {
 
                     // set up the updating of the chart each second
-                    var series = this.series[0];
+                    let series = this.series[0];
                     setInterval(function () {
-                    lastLineSensor2(function(value2) {
+                    lastLineSensorReader(function(value2) {
                       console.log(value2);
 
-                        var x = (new Date()).getTime(), // current time
+                        let x = (new Date()).getTime(), // current time
                             y=value2;
 
-                        series.addPoint([x, y], true, true);});
+                        series.addPoint([x, y], true, true);}, 2);
                     }, 1000);
                 }
             }
@@ -342,7 +342,7 @@ $(function (){
             name: 'Humidity',
             data: (function () {
                 // generate an array of random data
-                var data = [],
+                let data = [],
                     time = (new Date()).getTime(),
                     i;
 
@@ -362,10 +362,9 @@ $(function (){
 });
 
 
-
-function lastLineTemp(callback){
-    var data;
-    var temper;
+function lastLineSensorReader(callback, type){
+    let data;
+    let temper;
     Papa.parse('data.csv', {
       header: true,
       download: true,
@@ -373,46 +372,18 @@ function lastLineTemp(callback){
       complete: function(results) {
         console.log(results);
         data = results.data;
-        var count = Object.keys(data).length;
+        let count = Object.keys(data).length;
         console.log(count);
-        var tem = data[count-2]["temp"];
-        console.log(tem);
+
+        if (type === 1) {
+             var tem = data[count-2]["temp"];
+        }
+        else if (type ===2 ){
+             var tem = data[count-2]["hum"];
+        }
         callback(tem);
-
         temper = tem;
       }
     });
 
-
-
-
 }
-
-
-
-function lastLineSensor2(callback2){
-    var data;
-    var temper;
-    Papa.parse('data.csv', {
-      header: true,
-      download: true,
-      dynamicTyping: true,
-      complete: function(results) {
-        console.log(results);
-        data = results.data;
-        var count = Object.keys(data).length;
-        console.log(count);
-        var tem = data[count-2]["hum"];
-        console.log(tem);
-        callback2(tem);
-
-        temper = tem;
-      }
-    });
-
-
-
-
-}
-
-
