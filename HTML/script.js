@@ -254,8 +254,9 @@ $(function (){
         },
         tooltip: {
             formatter: function () {
-                return '<b>' + this.series.name + '</b><br/>' +
-                    Highcharts.numberFormat(this.y, 2);
+                // return '<b>' + this.series.name + '</b><br/>' +
+                //     Highcharts.numberFormat(this.y, 2);
+                return Highcharts.numberFormat(this.y, 2);
             }
         },
         legend: {
@@ -328,8 +329,9 @@ $(function (){
         },
         tooltip: {
             formatter: function () {
-                return '<b>' + this.series.name + '</b><br/>' +
-                    Highcharts.numberFormat(this.y, 2);
+                // return '<b>' + this.series.name + '</b><br/>' +
+                //     Highcharts.numberFormat(this.y, 2);
+                return Highcharts.numberFormat(this.y, 2);
             }
         },
         legend: {
