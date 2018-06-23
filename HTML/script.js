@@ -254,8 +254,9 @@ $(function (){
         },
         tooltip: {
             formatter: function () {
-                return '<b>' + this.series.name + '</b><br/>' +
-                    Highcharts.numberFormat(this.y, 2);
+                // return '<b>' + this.series.name + '</b><br/>' +
+                //     Highcharts.numberFormat(this.y, 2);
+                return Highcharts.numberFormat(this.y, 2);
             }
         },
         legend: {
@@ -307,7 +308,7 @@ $(function (){
             }
         },
         title: {
-            text: 'Real time Humidity'
+            text: "Value"
         },
         xAxis: {
             title: {
@@ -328,8 +329,9 @@ $(function (){
         },
         tooltip: {
             formatter: function () {
-                return '<b>' + this.series.name + '</b><br/>' +
-                    Highcharts.numberFormat(this.y, 2);
+                // return '<b>' + this.series.name + '</b><br/>' +
+                //     Highcharts.numberFormat(this.y, 2);
+                return Highcharts.numberFormat(this.y, 2);
             }
         },
         legend: {
@@ -365,7 +367,12 @@ $(function (){
 function lastLineSensorReader(callback, type){
     let data;
     let temper;
-    Papa.parse('data.csv', {
+    var obj = document.getElementById("myDropdown");
+    var newFile = obj.options[obj.selectedIndex].text;
+    console.log(newFile);
+    var name = newFile +'.csv';
+    console.log(name);
+    Papa.parse(name, {
       header: true,
       download: true,
       dynamicTyping: true,
@@ -379,7 +386,7 @@ function lastLineSensorReader(callback, type){
              var tem = data[count-2]["temp"];
         }
         else if (type ===2 ){
-             var tem = data[count-2]["hum"];
+             var tem = data[count-2][newFile];
         }
         callback(tem);
         temper = tem;
