@@ -319,7 +319,7 @@ $(function (){
         },
         yAxis: {
             title: {
-                text: 'Humidity'
+                text: 'Value'
             },
             plotLines: [{
                 value: 0,
