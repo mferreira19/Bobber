@@ -377,12 +377,9 @@ function lastLineSensorReader(callback, type){
       download: true,
       dynamicTyping: true,
       complete: function(results) {
-        console.log(results);
         data = results.data;
         let count = Object.keys(data).length;
-        console.log(count);
-
-        if (type === 1) {
+        if (type === 1) { 
              var tem = data[count-2]["temp"];
         }
         else if (type ===2 ){
