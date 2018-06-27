@@ -219,11 +219,10 @@ $(function (){
                     let series = this.series[0];
                     setInterval(function () {
                     lastLineSensorReader(function(value1) {
-                      console.log(value1);
 
                         let x = (new Date()).getTime(), // current time
                             y=value1;
-
+                            // console.log("this is the value of y1", value1)
                         series.addPoint([x, y], true, true);}, 1);
                     }, 1000);
                 }
@@ -254,8 +253,6 @@ $(function (){
         },
         tooltip: {
             formatter: function () {
-                // return '<b>' + this.series.name + '</b><br/>' +
-                //     Highcharts.numberFormat(this.y, 2);
                 return Highcharts.numberFormat(this.y, 2);
             }
         },
@@ -285,7 +282,6 @@ $(function (){
     });
 
     Highcharts.chart('container2', {
-
         chart: {
             type: 'spline',
             animation: Highcharts.svg, // don't animate in old IE
@@ -297,18 +293,17 @@ $(function (){
                     let series = this.series[0];
                     setInterval(function () {
                     lastLineSensorReader(function(value2) {
-                      console.log(value2);
 
                         let x = (new Date()).getTime(), // current time
                             y=value2;
-
+                            // console.log("this is the value of y2", value2)
                         series.addPoint([x, y], true, true);}, 2);
                     }, 1000);
                 }
             }
         },
         title: {
-            text: 'Real time Humidity'
+            text: "Value"
         },
         xAxis: {
             title: {
@@ -319,7 +314,7 @@ $(function (){
         },
         yAxis: {
             title: {
-                text: 'Humidity'
+                text: 'Value'
             },
             plotLines: [{
                 value: 0,
@@ -329,8 +324,6 @@ $(function (){
         },
         tooltip: {
             formatter: function () {
-                // return '<b>' + this.series.name + '</b><br/>' +
-                //     Highcharts.numberFormat(this.y, 2);
                 return Highcharts.numberFormat(this.y, 2);
             }
         },
@@ -364,28 +357,50 @@ $(function (){
 });
 
 
-function lastLineSensorReader(callback, type){
-    let data;
-    let temper;
-    Papa.parse('data.csv', {
-      header: true,
-      download: true,
-      dynamicTyping: true,
-      complete: function(results) {
-        console.log(results);
-        data = results.data;
-        let count = Object.keys(data).length;
-        console.log(count);
+// function lastLineSensorReader(callback, type){
+//     let data;
+//     let temper;
+//     var obj = document.getElementById("myDropdown");
+//     var newFile = obj.options[obj.selectedIndex].text;
+//     console.log(newFile);
+//     var name = newFile +'.csv';
+//     console.log(name);
+//     Papa.parse(name, {
+//       header: true,
+//       download: true,
+//       dynamicTyping: true,
+//       complete: function(results) {
+//         data = results.data;
+//         let count = Object.keys(data).length;
+//         if (type === 1) {
+//              var tem = data[count-2]["temp"];
+//         }
+//         else if (type ===2 ){
+//              var tem = data[count-2][newFile];
+//         }
+//         callback(tem);
+//         temper = tem;
+//       }
+//     });
+//
+// }
 
-        if (type === 1) {
-             var tem = data[count-2]["temp"];
-        }
-        else if (type ===2 ){
-             var tem = data[count-2]["hum"];
-        }
-        callback(tem);
-        temper = tem;
-      }
-    });
+function lastLineSensorReader(callback, column){
+    let dropdownObject = document.getElementById("myDropdown");
+    let filename = dropdownObject.options[dropdownObject.selectedIndex].text + ".csv";
+    // console.log("this is the filename that was selected:", filename);
 
+    $.get(filename, function(data){
+        let lines = data.replace(/^\s+|\s+$/g,"").split('\n');
+        let last_line = lines[lines.length-1].split(",");
+        let reading = null;
+        if (column === 1) {
+             reading = parseFloat(last_line[1]);
+        }
+        else if (column ===2 ){
+             reading = parseFloat(last_line[2]);
+        }
+        callback(reading);
+    })
 }
+
