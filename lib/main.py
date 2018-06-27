@@ -42,7 +42,7 @@ def main():
         time, temp, humidity = get_time(), parsed_line[0], parsed_line[1]
 
         with open('HTML/data.csv', "a") as filepointer:
-            filepointer.write("%s,%s,%s \r\n" % (time, temp, humidity))
+            filepointer.write("%s,%s,%s\r\n" % (time, temp, humidity))
 
 
 if __name__ == "__main__":
