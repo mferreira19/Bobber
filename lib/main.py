@@ -21,28 +21,30 @@ def get_time():
 
 def main():
 
-    if len(sys.argv)== 3:
+    if len(sys.argv)== 4:
             SERIAL_PORT = sys.argv[1]
-            BAUD_RATE = int(sys.argv[2])
+            BAUD_RATE   = int(sys.argv[2])
+            FILENAME    = sys.argv[3]
     else:
-        print("No serial port and baud rate provided")
-        print("  USAGE: python3 main.py <serialport> <baudrate>")
-        print("EXAMPLE: python3 main.py /dev/cu.usbmodem1421 9600")
+        print("No serial port, baud rate, and filename provided")
+        print("  USAGE: python3 main.py <serialport> <baudrate> <filename>")
+        print("EXAMPLE: python3 main.py /dev/cu.usbmodem1421 9600 PH.csv")
+        print("EXAMPLE: python3 main.py /dev/cu.usbmodem1422 9600 ORP.csv")
         sys.exit(1)
 
     ser = serial.Serial(SERIAL_PORT, BAUD_RATE)
 
-    with open('HTML/data.csv', "a") as filepointer:
-        filepointer.write("%s,%s,%s\r\n" % ("time", "temp", "hum"))
+    with open(FILENAME, "a") as filepointer:
+        filepointer.write("%s,%s,%s\r\n" % ("time", "temp", "value"))
 
     while True:
         reading = ser.readline().decode('utf-8')
         parsed_line = reading.strip().split(",")
 
-        time, temp, humidity = get_time(), parsed_line[0], parsed_line[1]
+        time, temp, value = get_time(), parsed_line[0], parsed_line[1]
 
-        with open('HTML/data.csv', "a") as filepointer:
-            filepointer.write("%s,%s,%s\r\n" % (time, temp, humidity))
+        with open(FILENAME, "a") as filepointer:
+            filepointer.write("%s,%s,%s\r\n" % (time, temp, value))
 
 
 if __name__ == "__main__":
